@@ -11,6 +11,7 @@ import json
 # all categories 78
 
 list_books=[]
+imgs=[]
 url = "https://www.pdfdrive.com/search"
 page = 1
 search = input("Entrer votre recherche : .....")
@@ -29,8 +30,10 @@ if reponse.ok:
     # itere sur toutes les pages 
     for i in range(int(last_page)-1):
 
-        livres = soup.find_all( 'div', {'class':'file-right'}) # recupere tous les livres
+        livres = soup.find_all( 'div', {'class':'col-sm'}) # recupere tous les livres
+        
         for livre in livres:
+            img = livre.find('img', {'class', "img-zoom file-img"}).get('src')
             link_livre = livre.find('a').get('href')
             try:
                 page_count = livre.find( 'span', {'class', 'fi-pagecount'}).get_text()
@@ -45,8 +48,8 @@ if reponse.ok:
             except:
                 new = "old"
             
-
-            print(" |||+ link livre :",link_livre)
+            print(" |||+ img book :", img)
+            print(" |||+ link livre :","https://www.pdfdrive.com" + link_livre)
             print(" |||+ page count : ",page_count)
             print(" |||+ year : ",year)
             print(" |||+ size : ",size)
@@ -55,7 +58,8 @@ if reponse.ok:
             print(" --------------------------------------")
            
             book ={
-                "link book": "https://www.pdfdrive.com/" + link_livre,
+                "img book": img,
+                "link book": "https://www.pdfdrive.com" + link_livre,
                 "page count":page_count,
                 "year": year,
                 "size":size,
@@ -68,6 +72,7 @@ if reponse.ok:
 
 
 with open("resultats.json","w",encoding='utf-8') as f:
-    json.dump(list_books,f,indent=4);
+    json.dump(list_books,f,indent=4)
 
+print(" nombre de resultats de votre recharche " + str(len(list_books)))
 print("[+] Done")
