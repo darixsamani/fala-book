@@ -7,13 +7,15 @@ import sys
 from bs4 import BeautifulSoup
 import lxml
 import csv
-
+import json
 # all categories 78
 
+list_books=[]
 url = "https://www.pdfdrive.com/search"
 page = 1
-payload ={'q':'java' , 'pagecount':'', 'pubyear':'', 'searchin':'','em':'','page': page}
-reponse = requests.get(url, params=payload ) 
+search = input("Entrer votre recherche : .....")
+payload ={'q':search , 'pagecount':'', 'pubyear':'', 'searchin':'','em':'','page': page}
+reponse = requests.get(url, params=payload )
 
 if reponse.ok:
 
@@ -27,7 +29,7 @@ if reponse.ok:
     # itere sur toutes les pages 
     for i in range(int(last_page)-1):
 
-        livres = soup.find_all( 'div', {'class':'file-right'}) # recupere tous les libres
+        livres = soup.find_all( 'div', {'class':'file-right'}) # recupere tous les livres
         for livre in livres:
             link_livre = livre.find('a').get('href')
             try:
@@ -51,5 +53,21 @@ if reponse.ok:
             print(" |||+  number_down : ",number_down)
             print(" |||+ new : ",new)
             print(" --------------------------------------")
-            payload['page'] = i +1 
+           
+            book ={
+                "link book": "https://www.pdfdrive.com/" + link_livre,
+                "page count":page_count,
+                "year": year,
+                "size":size,
+                "number download":number_down,
+                "new":new,
+            }
+            list_books.append(book)
+            payload['page'] = i +1 # aller a la page suivant
             reponse = requests.get( url, params=payload)
+
+
+with open("resultats.json","w",encoding='utf-8') as f:
+    json.dump(list_books,f,indent=4);
+
+print("[+] Done")
