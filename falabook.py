@@ -14,7 +14,7 @@ list_books=[]
 imgs=[]
 url = "https://www.pdfdrive.com/search"
 page = 1
-search = input("Entrer votre recherche : .....")
+search = input("Entrer votre recherche ici : .....")
 payload ={'q':search , 'pagecount':'', 'pubyear':'', 'searchin':'','em':'','page': page}
 reponse = requests.get(url, params=payload )
 
@@ -55,7 +55,7 @@ if reponse.ok:
             print(" |||+ size : ",size)
             print(" |||+  number_down : ",number_down)
             print(" |||+ new : ",new)
-            print(" --------------------------------------")
+            print(" -------------------------------------- -------------------------------------- --------------------------------------")
            
             book ={
                 "img book": img,
@@ -71,8 +71,8 @@ if reponse.ok:
             reponse = requests.get( url, params=payload)
 
 
-with open("resultats.json","w",encoding='utf-8') as f:
-    json.dump(list_books,f,indent=4)
+with open("resultats.json","w",encoding='utf-8') as flux:
+    json.dump(list_books,flux,indent=4)
 
-print(" nombre de resultats de votre recharche " + str(len(list_books)))
+print(" |||+ nombre de resultats de votre recharche " + str(len(list_books)))
 print("[+] Done")
