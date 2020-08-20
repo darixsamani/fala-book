@@ -71,8 +71,15 @@ if reponse.ok:
             reponse = requests.get( url, params=payload)
 
 
-with open("resultats.json","w",encoding='utf-8') as flux:
-    json.dump(list_books,flux,indent=4)
+with open("resultats.json","w",encoding='utf-8') as flux_json:
+    json.dump(list_books,flux_json,indent=4)
+
+with open('resultats.csv', mode='w') as csv_file:
+    fieldnames = ['img book', 'link book', 'page count', 'year', 'size', 'number download', 'new']
+    writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+    writer.writeheader()
+    for book_element in list_books:
+       writer.writerow(book_element)
 
 print(" |||+ nombre de resultats de votre recharche " + str(len(list_books)))
 print("[+] Done")
