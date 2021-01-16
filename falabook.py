@@ -1,6 +1,5 @@
 # coding: utf-8
 import requests
-import requests
 import time
 import os
 import sys
