@@ -81,7 +81,7 @@ def main (name:str, ouptuts:str)->None:
         writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
         writer.writeheader()
         for book_element in list_books:
-        writer.writerow(book_element)
+            writer.writerow(book_element)
 
     print(" |||+ nombre de resultats de votre recharche " + str(len(list_books)))
     print("[+] Done")
@@ -90,9 +90,11 @@ def main (name:str, ouptuts:str)->None:
 if __name__=="__main__":
 
     parser = argparse.ArgumentParser(description="simple scripts for search book on the internet")
-    parser.add_argument("-n", "-name", type=str, default="opencv", help=" give the name for the search ",)
+    parser.add_argument("-n", "--name", type=str, default="opencv", help=" give the name for the search ",)
     parser.add_argument("-o", "--outputs", type=str, help="the name file outputs after search")
     parser = parser.parse_args()
+    print(parser)
 
     main(parser.name,parser.outputs)
+
 
